@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="app.js"></script>
+    <title>imóveis settings</title>
+</head>
+<body>
+    <div>
+        <div class="header">
+            <div id="home">
+                <img src="drawables/Home.png" alt="Home">
+            </div>
+            <div id="botoesHeader">
+                <button id="irLogin" style="display: none;">Login</button>
+                <button id="irCadastro" style="display: none;">Cadastrar</button>
+                <div id="containerUsuario">
+                    <div id="usuario" style="display: none;">
+                        <div id="profile">
+                            <img src="drawables/ImageProfilePlaceholder.png" alt="Imagem perfil usuario" id="profilePictureHeader">
+                            <p id="nomeUsuario"></p>
+                        </div>
+                        <div id="subMenuItens">
+                            <div class="subMenuProfile" id="subMenuImoveis">
+                                <p>Imóveis</p>
+                                <span>></span>
+                            </div>
+                            <div class="subMenuProfile">
+                                <p>Reservas</p>
+                                <span>></span>
+                            </div>
+                            <div class="subMenuProfile">
+                                <p>Configurações</p>
+                                <span>></span>
+                            </div>
+                            <div class="subMenuProfile" id="subMenuSair">
+                                <p>Sair</p>
+                                <span>></span>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+        </div>
+        <div id="settings">
+            <div id="settingsImputDiv">
+                <div>
+                    <button class="botao" id="salvarImovel">Salvar</button>
+                </div>
+                <div>
+                    <button class="botao" id="atualizarImovel" style="display: none;">Atualizar</button>
+                </div>
+                <div id="settingInputs">
+                    <div>
+                        <label for="cep">Cep</label><br>
+                        <input type="text" name="cep" id="cep" class="camposSettingsImoveis">
+                    </div>
+                    <div>
+                        <label for="logradouro">Logradouro</label><br>
+                        <input type="text" name="logradouro" id="logradouro" class="camposSettingsImoveis">
+                    </div>
+                    <div>
+                        <label for="numero">Número</label><br>
+                        <input type="number" name="numero" id="numero" class="camposSettingsImoveis">
+                    </div>
+                    <div>
+                        <label for="bairro">Bairro</label><br>
+                        <input type="text" name="bairro" id="bairro" class="camposSettingsImoveis">
+                    </div>
+                    <div>
+                        <label for="cidade">Cidade</label><br>
+                        <input type="text" name="cidade" id="cidade" class="camposSettingsImoveis">
+                    </div>
+                    <div>
+                        <label for="estado">Estado</label><br>
+                        <input type="text" name="estado" id="estado" class="camposSettingsImoveis">
+                    </div>
+                    <div style="display: none;">
+                        <label for="uf">UF</label><br>
+                        <input type="text" name="uf" id="uf" class="camposSettingsImoveis">
+                    </div>
+                    <div>
+                        <label for="preco">Preço/dia</label><br>
+                        <input type="number" name="preco" id="preco" class="camposSettingsImoveis">
+                    </div>
+                    <div>
+                        <label for="disponibilidade">Disponibilidade</label><br>
+                        <select name="disponibilidade" id="disponibilidade" class="camposSettingsImoveis">
+                            <option value="disponivel">Disponível</option>
+                            <option value="indisponivel">Indisponível</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div id="fotosImovel">
+                
+            </div>
+        </div>
+    </div>
+</body>
+</html>

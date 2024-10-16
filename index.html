@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="app.js"></script>
+    <title>Home</title>
+</head>
+<body>
+    <div>
+        <div class="header">
+            <div id="botoesHeader">
+                <button id="irLogin" style="display: none;">Login</button>
+                <button id="irCadastro" style="display: none;">Cadastrar</button>
+                <div id="containerUsuario">
+                    <div id="usuario" style="display: none;">
+                        <div id="profile">
+                            <img src="drawables/ImageProfilePlaceholder.png" alt="Imagem perfil usuario" id="profilePictureHeader">
+                            <p id="nomeUsuario"></p>
+                        </div>
+                        <div id="subMenuItens">
+                            <div class="subMenuProfile" id="subMenuImoveis">
+                                <p>Imóveis</p>
+                                <span>></span>
+                            </div>
+                            <div class="subMenuProfile">
+                                <p>Reservas</p>
+                                <span>></span>
+                            </div>
+                            <div class="subMenuProfile">
+                                <p>Configurações</p>
+                                <span>></span>
+                            </div>
+                            <div class="subMenuProfile" id="subMenuSair">
+                                <p>Sair</p>
+                                <span>></span>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+        </div>
+        <div id="filtros">
+            <div>
+                <p id="tituloFiltro">Filtros</p>
+            </div>
+            <div id="filtroCheckbox">
+                <div>
+                    <input type="checkbox" id="piscina" name="piscina">
+                    <label for="piscina">Piscina</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="garagem" name="garagem">
+                    <label for="garagem">Garagem</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="lavenderia" name="lavenderia">
+                    <label for="lavenderia">Lavenderia</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="suite" name="suite">
+                    <label for="suite">Suíte</label>
+                </div>
+            </div>
+        </div>
+        <div id="imoveis">
+            <div id="filtrosHeader">
+                <input type="text" name="pesquisar" id="pesquisar" placeholder="Pesquisar">
+            </div>
+            <div id="cardsImoveis">       
+            </div>
+        </div>
+    </div>
+</body>
+</html>
