@@ -77,6 +77,10 @@ label {
     cursor: pointer;
 }
 
+.botao:hover {
+    background-color: #4081b3;
+}
+
 #criaConta {
     font-family: Inter;
     text-align: center;
@@ -179,8 +183,8 @@ a:active {
 #imoveis {
     height: 100vh;
     margin-top: 3.75rem;
-    margin-left: 17rem;
     padding-left: 2rem;
+    padding-right: 2rem;
     padding-top: 2rem;
     overflow: auto;
 }
@@ -278,13 +282,13 @@ input[type="checkbox"] + label {
     display: flex;
     flex-direction: column;
     width: 3.125rem;
-    height: 3.125rem;
+    max-height: 3.125rem;
     margin-top: 0.3125rem;
     background-color: #4892cc;
     gap: 0.75rem;
     font-family: Inter;
     font-weight: bold;
-    border-radius: 0.3125rem;
+    border-radius: 5px;
     cursor: pointer;
     color: transparent;
     overflow: hidden;
@@ -296,7 +300,7 @@ input[type="checkbox"] + label {
 
 #usuario:hover {
     width: 100%;
-    height: 13.75rem;
+    max-height: 13.75rem;
     color: #FFFFFF;
 }
 
@@ -322,8 +326,9 @@ input[type="checkbox"] + label {
 
 .subMenuProfile {
     display: flex;
+    height: 40px;
     align-items: center;
-    padding: 0.3125rem 0.9375rem 0.3125rem 0.625rem;
+    padding: 0rem 0.9375rem 0rem 0.625rem;
     font-weight: normal;
     transition: ease 200ms;
 }
@@ -361,14 +366,19 @@ input[type="checkbox"] + label {
     width: 3.125rem;
     height: 3.125rem;
     border-radius: 0.3125rem;
-    background-color: #4892cc;
+    background-color: #316388;
     cursor: pointer;
+    transition: ease 100ms;
+}
+
+#home:hover {
+    background-color: #4892cc;
 }
 
 #home img {
     width: 100%;
     height: 100%;
-    transform: scale(0.5);
+    transform: scale(0.6);
 }
 
 #imoveisProfile {
@@ -426,4 +436,358 @@ input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button { 
   -webkit-appearance: none;
   appearance: none;
+}
+
+#fotoReserva {
+    margin-left: 4rem;
+    margin-top: 7.75rem;
+    min-height: 454px;
+}
+
+#fotoDetalhes {
+    display: flex;
+    overflow: auto;
+    gap: 4rem;
+}
+
+#detalhesReserva {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+#detalhesReservaHeader {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 7.75rem;
+    font-family: Inter;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1E1E1E;
+}
+
+#precoReservaDiv {
+    font-family: Inter;
+    font-size: 3rem;
+    font-weight: bold;
+}
+
+sup {
+    vertical-align: top;
+    position: relative;
+    top: 0.3125rem;
+    font-size: 1.5rem;
+}  
+
+#corpoReserva {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+#cidadeReservaDiv {
+    font-weight: normal;
+    font-size: 1rem;
+}
+
+#dataReservaDiv {
+    display: flex;
+    gap: 24px;
+}
+
+#botãoReservar #reservar {
+    width: 33.375rem;
+    height: 2.5rem;
+    background-color: #33668D;
+    color: #F5F5F5;
+    font-size: 1rem;
+    font-family: Inter;
+    border-radius: 8px;
+    border: 1px solid #2C2C2C;
+    cursor: pointer;
+}
+
+#botãoReservar #reservar:hover {
+    background-color: #4081b3;
+}
+
+#dataEntradaReserva {
+    width: 15.9375rem;
+}
+
+#dataSaidaReserva {
+    width: 15.9375rem;
+}
+  
+#enderecoReserva {
+    width: 33.375rem;
+}
+
+/* Estilo de fundo */
+.datepicker {
+    background-color: #ffffff; /* Cor de fundo */
+    border: 1px solid #ced4da; /* Borda */
+}
+
+/* Estilo dos dias */
+.datepicker td {
+    padding: 10px; /* Espaçamento interno */
+}
+
+/* Estilo para dias selecionados */
+.datepicker td.active, 
+.datepicker td.active:hover {
+    background-color: #33668D; /* Cor de fundo dos dias selecionados */
+    color: white; /* Cor do texto dos dias selecionados */
+}
+
+/* Estilo para o botão de fechar */
+.datepicker .datepicker-days .datepicker-switch, 
+.datepicker .datepicker-days .prev, 
+.datepicker .datepicker-days .next {
+    background-color: #33668D; /* Cor de fundo do botão */
+    color: white; /* Cor do texto do botão */
+    border-radius: 0px; /* Raio das bordas do botão */
+}
+
+/* Cor de fundo do botão ao passar o mouse */
+.datepicker .datepicker-days .datepicker-switch:hover, 
+.datepicker .datepicker-days .prev:hover, 
+.datepicker .datepicker-days .next:hover {
+    background-color: #33668D; /* Nova cor de fundo ao passar o mouse */
+    color: white; /* Cor do texto ao passar o mouse */
+}
+
+/* Estilo para dias desabilitados */
+.datepicker td.disabled,
+.datepicker td.text-muted {
+    background-color: #d3d3d3 !important; /* Adiciona !important para forçar a aplicação */
+    color: #a9a9a9 !important; /* Adiciona !important para forçar a aplicação */
+}
+
+/* Remover bordas arredondadas do datepicker */
+.datepicker {
+    border-radius: 0 !important; /* Remover borda arredondada do datepicker */
+}
+
+.datepicker td,
+.datepicker .datepicker-days .datepicker-switch,
+.datepicker .datepicker-days .prev,
+.datepicker .datepicker-days .next {
+    border-radius: 0 !important; /* Remover borda arredondada de células e botões */
+}
+
+/* Se houver um botão de fechar, remova a borda arredondada dele também */
+.datepicker .datepicker-days .datepicker-switch,
+.datepicker .datepicker-days .prev,
+.datepicker .datepicker-days .next {
+    border-radius: 0 !important; /* Remover borda arredondada dos botões */
+}
+
+/* Estilo para as datas reservadas */
+.datepicker table tr td.reserved-date,
+.datepicker table tr td.reserved-date {
+    background-color: #33668D !important; /* Cor vermelha */
+    color: white !important; /* Cor do texto */
+    border-radius: 0; /* Remove qualquer borda arredondada */
+    opacity: 0.8; /* Leve transparência */
+    text-align: center;
+}
+
+/* Para evitar que o Bootstrap ou outro CSS sobrescreva */
+.datepicker table tr td.reserved-date:hover,
+.datepicker table tr td.reserved-date:active {
+    background-color: #007bff !important; /* Vermelho mais escuro ao passar o mouse */
+    color: white !important;
+}
+
+
+@media (max-width: 48rem) {
+    .cardImovel {
+        border: 1px solid #D9D9D9;
+        border-radius: 8px;
+        padding: 1rem;
+        width: 18.875rem;
+        display: flex;
+        flex-direction: column;
+        cursor: pointer;
+        gap: 1rem;
+        transition: 200ms;
+    }
+
+    #settingsImputDiv {
+        width: 100%;
+    }
+    
+    .cardImovel:hover {
+        background-color: #f2f2f2;
+    }
+
+    .location {
+        font-family: Inter;
+        font-size: 1.25rem;
+        color: #1E1E1E;
+    }
+
+    .price {
+        font-family: Inter;
+        font-size: 1.25rem;
+        color: #1E1E1E;
+        font-weight: bold;
+    }
+
+    #cardsImoveis{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        gap: 1.5rem;
+        margin-top: 2.5rem;
+        padding-bottom: 9.375rem;
+    }
+
+    #pesquisar{
+        width: 18.875rem;
+        height: 2.5rem;
+        border: 1px solid #D9D9D9;
+        border-radius: 9999px;
+        padding: 0.75rem 1rem;
+        background-image: url('drawables/Search.png');
+        background-position: right 1rem center;
+        background-repeat: no-repeat;
+    }
+
+    #filtrosHeader {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 40px;
+    }
+
+    #novoImovel {
+        width: 18.875rem;
+        order: 1;
+    }
+
+    #settings {
+        display: flex;
+        justify-content: center;
+        padding: 5.625rem 3.75rem 0rem 3.75rem;
+        height: 100vh;
+        width: 100vw;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+
+    #atualizarImovel {
+        width: 100%;
+    }
+
+    #settingInputs {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        gap: 2rem;
+        padding-bottom: 6.25rem;
+        margin-top: 1.875rem;
+    }
+
+    .settingInputsDiv {
+        width: 100%;
+    }
+
+    .camposSettingsImoveis {
+        border: 1px solid #D9D9D9;
+        border-radius: 8px;
+        width: 100%;
+        padding: 0.75rem 1rem;
+        box-sizing: border-box;
+    }
+
+    #salvarImovel {
+        width: 100%;
+    }
+
+    #imoveisProfile {
+        height: 100vh;
+        margin-top: 3.75rem;
+        padding-left: 0rem;
+        padding-right: 0rem;
+        padding-top: 2rem;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+
+    #fotosImovel {
+        display: none;
+    }
+
+    #fotoDetalhes {
+        width: 100vw;
+        display: flex;
+        height: 100vh;
+        padding-bottom: 6.25rem;
+        flex-direction: column;
+        align-items: center;
+        overflow-x: hidden;
+        overflow-y: auto;
+        gap: 1.875rem;
+    }
+
+    #detalhesReservaHeader {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        margin-top: 0rem;
+        font-family: Inter;
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #1E1E1E;
+    }
+
+    #fotoReserva {
+        margin-left: 0rem;
+        margin-top: 0rem;
+        max-height: 22rem;
+    }
+
+    #detalhesReserva {
+        width: 80%;
+    }
+
+    #enderecoReserva {
+        width: 100%;
+    }
+
+    #botãoReservar #reservar {
+        width: 100%;
+        margin-top: 1.875rem;
+    }
+
+    #dataReservaDiv {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    #dataEntradaReserva {
+        width: 100%;
+    }
+
+    #dataSaidaReserva {
+        width: 100%;
+    }
+
+    #fotoDiv {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 80%;
+        background-color: #454545;
+        margin-top: 3.75rem;
+        border-bottom-left-radius: 8px;
+        border-bottom-right-radius: 8px;
+    }
 }

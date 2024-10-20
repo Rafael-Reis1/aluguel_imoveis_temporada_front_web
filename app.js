@@ -1,9 +1,11 @@
-var baseURL = `http://127.0.0.1:3000`;
+var baseURL = `http://192.168.15.11:3000`;
+//var baseURL = `http://127.0.0.1:3000`;
 const indexPage = 'index.html';
 const imoveisPage = 'imoveis.html';
 const imoveisSettingPage = 'imoveis_settings.html';
 const loginPage = 'login.html';
 const cadastroPage = 'cadastro.html';
+const reservar = 'reservar.html'
 
 window.onload = function() {
     if (document.title == 'Login') {
@@ -241,77 +243,51 @@ window.onload = function() {
         }
 
         salvarImovel.onclick = function() {
-            if (cep.value.length == 8) {
-                if (logradouro) {
-                    if (numero) {
-                        if (bairro) {
-                            if (cidade) {
-                                if (estado) {
-                                    if (preco) {
-                                        if (valorSelecionado == 'disponivel') {
-                                            disponibilidade = true;
-                                        }
-                                        else {
-                                            disponibilidade = false;
-                                        }
-
-                                        axios.post(baseURL + `/imoveis`, {
-                                            cep: cep.value,
-                                            logradouro: logradouro.value,
-                                            numero: parseInt(numero.value),
-                                            bairro: bairro.value,
-                                            localidade: cidade.value,
-                                            estado: estado.value,
-                                            uf: uf.value,
-                                            preco: parseInt(preco.value),
-                                            disponivel: disponibilidade
-                                        }, {
-                                            headers: {
-                                                Authorization: `Bearer ${token}`
-                                            }
-                                        })
-                                        .then(response => {
-                                            document.location.href = imoveisPage;
-                                        })
-                                        .catch(error =>{
-                                            alert(JSON.stringify(error.response.data, null, 2));
-                                        });
-                                    }
-                                    else {
-                                        alert('Campo preço é obrigatório!');
-                                        preco.focus();
-                                    }
-                                }
-                                else {
-                                    alert('Campo estado é obrigatório!');
-                                    estado.focus();
-                                }
-                            }
-                            else {
-                                alert('Campo cidade é obrigatório!');
-                                cidade.focus();
-                            }
-                        }
-                        else {
-                            alert('Campo bairro é obrigatório!');
-                            bairro.focus();
-                        }
-                    }
-                    else {
-                        alert('Campo número é obrigatório!');
-                        numero.focus();
-                    }
-                }
-                else {
-                    alert('Campo logradouro é obrigatório!');
-                    logradouro.focus();
-                }
+            const camposObrigatorios = [
+              { campo: cep, mensagem: 'Campo CEP é obrigatório!' },
+              { campo: logradouro, mensagem: 'Campo logradouro é obrigatório!' },
+              { campo: numero, mensagem: 'Campo número é obrigatório!' },
+              { campo: bairro, mensagem: 'Campo bairro é obrigatório!' },
+              { campo: cidade, mensagem: 'Campo cidade é obrigatório!' },
+              { campo: estado, mensagem: 'Campo estado é obrigatório!' },
+              { campo: preco, mensagem: 'Campo preço é obrigatório!' },
+            ];
+          
+            for (let i = 0; i < camposObrigatorios.length; i++) {
+              const campo = camposObrigatorios[i];
+              if (!campo.campo.value || campo.campo.value.length === 0) {
+                alert(campo.mensagem);
+                campo.campo.focus();
+                return;
+              }
             }
-            else {
-                alert('Campo cep é obrigatório!');
-                cep.focus();
-            }
+          
+            const disponibilidade = valorSelecionado === 'disponivel';
+          
+            axios.post(baseURL + `/imoveis`, {
+              cep: cep.value,
+              logradouro: logradouro.value,
+              numero: parseInt(numero.value),
+              bairro: bairro.value,
+              localidade: cidade.value,
+              estado: estado.value,
+              uf: uf.value,
+              preco: parseInt(preco.value),
+              disponivel: disponibilidade,
+            }, {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            })
+            .then((response) => {
+              document.location.href = imoveisPage;
+            })
+            .catch((error) => {
+              alert(JSON.stringify(error.response.data, null, 2));
+            });
         }
+          
+          
 
         atualizarImovel.onclick = function() {
             if (cep.value.length == 8) {
@@ -409,7 +385,251 @@ window.onload = function() {
             }
         }
     }
+    else if (document.title == 'Reservar') {
+        const token = sessionStorage.getItem('token');
+        const home = document.getElementById('home');
+        const enderecoReserva = document.getElementById('enderecoReserva');
+        const precoReserva = document.getElementById('precoReserva');
+        const cidadeReserva = document.getElementById('cidadeReserva');
+        const imovelId = sessionStorage.getItem('imovelId');
+        const subMenuSair = document.getElementById('subMenuSair');
+        const subMenuImoveis = document.getElementById('subMenuImoveis');
+        const reservar = document.getElementById('reservar');
+
+        axios.get(baseURL + `/usuarios/me`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+        .then(response => {
+            usuario.style.display = 'block';
+            nomeUsuario.innerText = response.data.nome;
+        })
+        .catch(error =>{
+            sessionStorage.removeItem('token');
+            document.location.href = loginPage;
+        });
+
+        if (imovelId) {
+            axios.post(baseURL + `/imoveis/id`, {
+                id_imovel: imovelId
+            }, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+            .then(response => {
+                enderecoReserva.innerHTML = `<p>${response.data.logradouro}, ${response.data.numero} <br> ${response.data.bairro}</p>`;
+                precoReserva.innerHTML = `<sup>R$</sup>${response.data.preco}/dia`;
+                cidadeReserva.innerText = `${response.data.localidade} - ${response.data.uf}`;
+                disableDatesEntrada(response.data, imovelId, token);
+            })
+            .catch(error =>{
+            });
+        }
+
+        reservar.onclick = function() {
+            // Obtém a data de entrada selecionada
+            const entradaSelecionada = $('#dataEntradaReserva').datepicker('getDate');
+            const saidaSelecionada = $('#dataSaidaReserva').datepicker('getDate');
+
+            // Verifica se as datas foram selecionadas
+            if (!entradaSelecionada || !saidaSelecionada) {
+                alert("Por favor, selecione as datas de entrada e saída.");
+                return;
+            }
+
+            // Converte as datas para o formato ISO 8601
+            const formattedEntrada = entradaSelecionada.toISOString();
+            const formattedSaida = saidaSelecionada.toISOString();
+
+            console.log(imovelId);
+            axios.post(baseURL + `/reservas`, {
+                id_imovel: imovelId,
+                data_entrada: formattedEntrada,
+                data_saida: formattedSaida
+            }, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+            .then(response => {
+                document.location.href = indexPage;
+            })
+            .catch(error =>{
+                alert(JSON.stringify(error.response.data, null, 2));
+            });
+        }
+
+        home.onclick = function() {
+            document.location.href = indexPage;
+        }
+
+        subMenuImoveis.onclick = function() {
+            document.location.href = imoveisPage;
+        }
+
+        subMenuSair.onclick = function() {
+            sessionStorage.removeItem('token');
+            document.location.href = indexPage;
+        }
+    }
 }
+
+function disableDatesEntrada(axiosData) {
+    const imovel = axiosData;
+    const intervals = [];
+
+    if (imovel.ReservaTemporada && imovel.ReservaTemporada.length > 0) {
+        imovel.ReservaTemporada.forEach(reserva => {
+            const entrada = new Date(reserva.data_entrada);
+            const saida = new Date(reserva.data_saida);
+
+            // Adiciona 1 dia nas datas
+            entrada.setDate(entrada.getDate() + 1);
+            saida.setDate(saida.getDate() + 1);
+
+            const start = entrada.toISOString().split('T')[0];
+            const end = saida.toISOString().split('T')[0];
+
+            intervals.push({ start, end });
+        });
+        intervals.sort((a, b) => new Date(a.start) - new Date(b.start));
+    }
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    let disabledDates = [];
+    intervals.forEach(interval => {
+        const start = new Date(interval.start);
+        const end = new Date(interval.end);
+        
+        start.setHours(0, 0, 0, 0);
+        end.setHours(0, 0, 0, 0);
+        
+        disabledDates = disabledDates.concat(getDatesInRange(start, end));
+    });
+
+    function getDatesInRange(start, end) {
+        const dates = [];
+        let currentDate = new Date(start);
+        end = new Date(end);
+        currentDate.setHours(0, 0, 0, 0);
+        end.setHours(0, 0, 0, 0);
+
+        while (currentDate <= end) {
+            dates.push(new Date(currentDate));
+            currentDate.setDate(currentDate.getDate() + 1);
+        }
+        return dates;
+    }
+
+    $('#dataEntradaReserva').datepicker({
+        format: 'dd/mm/yyyy',
+        language: 'pt-BR',
+        todayHighlight: true,
+        autoclose: true,
+        beforeShowDay: function (date) {
+            const currentDate = new Date(date);
+            currentDate.setHours(0, 0, 0, 0);
+    
+            if (currentDate.getTime() < today.getTime()) {
+                return { enabled: false, classes: 'text-muted', tooltip: 'Data indisponível' };
+            }
+    
+            const isReserved = disabledDates.some(d => d.getTime() === currentDate.getTime());
+    
+            if (isReserved) {
+                return { 
+                    enabled: false, 
+                    classes: 'reserved-date', 
+                    tooltip: 'Data reservada' 
+                };
+            }
+    
+            return { enabled: true };
+        }
+    });    
+
+    $('#dataEntradaReserva').on('changeDate', function(e) {
+        const entradaSelecionada = e.date; 
+        const dataSaida = new Date(entradaSelecionada);
+        dataSaida.setDate(dataSaida.getDate() + 1); 
+
+        $('#dataSaidaReserva').datepicker('setStartDate', dataSaida);
+        $('#dataSaidaReserva').datepicker('setDate', dataSaida);
+        $('#dataSaidaReserva').prop('disabled', false);
+    });
+
+    $('#dataSaidaReserva').datepicker({
+        format: 'dd/mm/yyyy',
+        language: 'pt-BR',
+        todayHighlight: true,
+        autoclose: true,
+        beforeShowDay: function (date) {
+            const selectedEntradaDate = $('#dataEntradaReserva').datepicker('getDate');
+            const isReserved = disabledDates.some(d => d.getTime() === date.getTime());
+    
+            if (selectedEntradaDate) {
+                const minSaidaDate = new Date(selectedEntradaDate);
+                minSaidaDate.setDate(minSaidaDate.getDate() + 1);
+    
+                // Desabilita datas anteriores à data mínima de saída
+                if (date < minSaidaDate) {
+                    return { 
+                        enabled: false, 
+                        classes: 'text-muted', 
+                        tooltip: 'Data de saída deve ser depois da data de entrada.' 
+                    };
+                }
+    
+                // Verifica a última data de reserva e a próxima reserva
+                let lastReservedEnd = null;
+                let nextReservedStart = null;
+    
+                intervals.forEach(interval => {
+                    const start = new Date(interval.start);
+                    const end = new Date(interval.end);
+    
+                    if (!lastReservedEnd || end > lastReservedEnd) {
+                        lastReservedEnd = end; // Última data de saída
+                    }
+    
+                    if (!nextReservedStart && start > selectedEntradaDate) {
+                        nextReservedStart = start; // Próxima data de entrada
+                    }
+                });
+    
+                // Desabilita a saída se coincidir ou passar a próxima reserva
+                if (nextReservedStart && date >= nextReservedStart) {
+                    return { 
+                        enabled: false, 
+                        classes: 'text-muted', 
+                        tooltip: 'Data de saída deve ser antes da próxima data reservada.' 
+                    };
+                }
+    
+                // Habilita todas as datas após a última reserva
+                if (selectedEntradaDate > lastReservedEnd) {
+                    return true;
+                }
+            }
+    
+            // Aplica a classe personalizada para reservas
+            if (isReserved) {
+                return { 
+                    enabled: false, 
+                    classes: 'reserved-date', 
+                    tooltip: 'Data reservada' 
+                };
+            }
+    
+            return { enabled: true }; // Data habilitada
+        }
+    });    
+}
+
 
 function login(email, senha){
     if (email.value) {
@@ -499,9 +719,8 @@ function criaCard(dados) {
       `;
   
       card.addEventListener('click', () => {
-        // Ação de click aqui
         sessionStorage.setItem('imovelId', card.dataset.id);
-        // Abre a página de detalhes do imóvel, por exemplo
+        document.location.href = reservar;
       });
   
       fragment.appendChild(card);
@@ -540,10 +759,8 @@ function criaCard(dados) {
       `;
   
       card.addEventListener('click', () => {
-        // Ação de click aqui
         sessionStorage.setItem('imovelId', card.dataset.id);
         document.location.href = imoveisSettingPage;
-        // Abre a página de detalhes do imóvel, por exemplo
       });
   
       fragment.appendChild(card);

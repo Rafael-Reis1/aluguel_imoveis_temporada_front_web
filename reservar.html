@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.pt-BR.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="app.js"></script>
+    <title>Reservar</title>
+</head>
+<body>
+    <div>
+        <div class="header">
+            <div id="home">
+                <img src="drawables/Home.png" alt="Home">
+            </div>
+            <div id="botoesHeader">
+                <button id="irLogin" style="display: none;">Login</button>
+                <button id="irCadastro" style="display: none;">Cadastrar</button>
+                <div id="containerUsuario">
+                    <div id="usuario" style="display: none;">
+                        <div id="profile">
+                            <img src="drawables/ImageProfilePlaceholder.png" alt="Imagem perfil usuario" id="profilePictureHeader">
+                            <p id="nomeUsuario"></p>
+                        </div>
+                        <div id="subMenuItens">
+                            <div class="subMenuProfile" id="subMenuImoveis">
+                                <p>Imóveis</p>
+                                <span>></span>
+                            </div>
+                            <div class="subMenuProfile">
+                                <p>Reservas</p>
+                                <span>></span>
+                            </div>
+                            <div class="subMenuProfile">
+                                <p>Configurações</p>
+                                <span>></span>
+                            </div>
+                            <div class="subMenuProfile" id="subMenuSair">
+                                <p>Sair</p>
+                                <span>></span>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+        </div>
+        <div id="fotoDetalhes">
+            <div id="fotoDiv">
+                <img src="drawables/ImagePlaceholder.png" alt="Imagem do imovel" id="fotoReserva">
+            </div>
+            <div id="detalhesReserva">
+                <div id="detalhesReservaHeader">
+                    <span id="enderecoReserva"></span>
+                    <div id="precoReservaDiv">
+                        <span id="precoReserva"></span>
+                    </div>
+                    <div id="cidadeReservaDiv">
+                        <p id="cidadeReserva">Governador Valadares, MG</p>
+                    </div>
+                </div>
+                <div id="corpoReserva">
+                    <div id="dataReservaDiv">
+                        <div>
+                            <label for="dataEntradaReserva">Entrada</label><br>
+                            <input type="text" id="dataEntradaReserva" class="camposSettingsImoveis" placeholder="DD/MM/AAAA">
+                        </div>
+                        <div>
+                            <label for="dataSaidaReserva">Saída</label><br>
+                            <input type="text" id="dataSaidaReserva" class="camposSettingsImoveis" placeholder="DD/MM/AAAA" disabled>
+                        </div>
+                    </div>
+                    <div id="botãoReservar">
+                        <button id="reservar">Reservar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
