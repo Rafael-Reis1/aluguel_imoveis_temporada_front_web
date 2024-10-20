@@ -406,8 +406,6 @@ window.onload = function() {
             nomeUsuario.innerText = response.data.nome;
         })
         .catch(error =>{
-            sessionStorage.removeItem('token');
-            document.location.href = loginPage;
         });
 
         if (imovelId) {
@@ -700,6 +698,7 @@ function cadastro(nome, emailCadastro, senhaCadastro) {
 }
 
 function criaCard(dados) {
+    const token = sessionStorage.getItem('token');
     const cardsImoveis = document.getElementById('cardsImoveis');
     cardsImoveis.innerHTML = '';
   
@@ -720,7 +719,18 @@ function criaCard(dados) {
   
       card.addEventListener('click', () => {
         sessionStorage.setItem('imovelId', card.dataset.id);
-        document.location.href = reservar;
+        axios.get(baseURL + `/usuarios/me`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+        .then(response => {
+            document.location.href = reservar;
+        })
+        .catch(error =>{
+            sessionStorage.removeItem('token');
+            document.location.href = loginPage;
+        });
       });
   
       fragment.appendChild(card);
