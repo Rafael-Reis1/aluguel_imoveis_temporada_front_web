@@ -62,7 +62,7 @@ window.onload = function() {
         const cadastrar = document.getElementById('irCadastro');
         const usuario = document.getElementById('usuario');
         const nomeUsuario = document.getElementById('nomeUsuario');
-        const token = sessionStorage.getItem('token');
+        const token = localStorage.getItem('token');
         const subMenuSair = document.getElementById('subMenuSair');
         const subMenuImoveis = document.getElementById('subMenuImoveis');
 
@@ -90,7 +90,7 @@ window.onload = function() {
         }
 
         subMenuSair.onclick = function() {
-            sessionStorage.removeItem('token');
+            localStorage.removeItem('token');
             location.reload(true);
         }
 
@@ -106,7 +106,7 @@ window.onload = function() {
         });
     }
     else if (document.title == 'imóveis') {
-        const token = sessionStorage.getItem('token');
+        const token = localStorage.getItem('token');
         const subMenuSair = document.getElementById('subMenuSair');
         const home = document.getElementById('home');
         const novoImovel = document.getElementById('novoImovel');
@@ -123,12 +123,12 @@ window.onload = function() {
             nomeUsuario.innerText = response.data.nome;
         })
         .catch(error =>{
-            sessionStorage.removeItem('token');
+            localStorage.removeItem('token');
             document.location.href = indexPage;
         });
 
         subMenuSair.onclick = function() {
-            sessionStorage.removeItem('token');
+            localStorage.removeItem('token');
             document.location.href = indexPage;
         }
 
@@ -153,7 +153,7 @@ window.onload = function() {
         });
     }
     else if (document.title == 'imóveis settings') {
-        const token = sessionStorage.getItem('token');
+        const token = localStorage.getItem('token');
         const imovelId = sessionStorage.getItem('imovelId');
         const home = document.getElementById('home');
         const subMenuSair = document.getElementById('subMenuSair');
@@ -183,7 +183,7 @@ window.onload = function() {
             nomeUsuario.innerText = response.data.nome;
         })
         .catch(error =>{
-            sessionStorage.removeItem('token');
+            localStorage.removeItem('token');
             document.location.href = indexPage;
         });
 
@@ -219,7 +219,7 @@ window.onload = function() {
         }
 
         subMenuSair.onclick = function() {
-            sessionStorage.removeItem('token');
+            localStorage.removeItem('token');
             document.location.href = indexPage;
         }
 
@@ -358,7 +358,7 @@ window.onload = function() {
         }
     }
     else if (document.title == 'Reservar') {
-        const token = sessionStorage.getItem('token');
+        const token = localStorage.getItem('token');
         const home = document.getElementById('home');
         const enderecoReserva = document.getElementById('enderecoReserva');
         const precoReserva = document.getElementById('precoReserva');
@@ -440,7 +440,7 @@ window.onload = function() {
         }
 
         subMenuSair.onclick = function() {
-            sessionStorage.removeItem('token');
+            localStorage.removeItem('token');
             document.location.href = indexPage;
         }
     }
@@ -609,7 +609,7 @@ function login(email, senha){
                 password: senha.value
             })
             .then(response => {
-                sessionStorage.setItem('token', response.data.access_token);
+                localStorage.setItem('token', response.data.access_token);
                 document.location.href = indexPage;
             })
             .catch(error =>{
@@ -642,7 +642,7 @@ function cadastro(nome, emailCadastro, senhaCadastro) {
                         password: senhaCadastro.value,
                     })
                     .then(response => {
-                        sessionStorage.setItem('token', response.data.access_token);
+                        localStorage.setItem('token', response.data.access_token);
                         document.location.href = indexPage;
                     })
                     .catch(error =>{
@@ -670,7 +670,7 @@ function cadastro(nome, emailCadastro, senhaCadastro) {
 }
 
 function criaCard(dados) {
-    const token = sessionStorage.getItem('token');
+    const token = localStorage.getItem('token');
     const cardsImoveis = document.getElementById('cardsImoveis');
     cardsImoveis.innerHTML = '';
   
@@ -700,7 +700,7 @@ function criaCard(dados) {
             document.location.href = reservar;
         })
         .catch(error =>{
-            sessionStorage.removeItem('token');
+            localStorage.removeItem('token');
             document.location.href = loginPage;
         });
       });
