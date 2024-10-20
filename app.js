@@ -290,77 +290,49 @@ window.onload = function() {
           
 
         atualizarImovel.onclick = function() {
-            if (cep.value.length == 8) {
-                if (logradouro) {
-                    if (numero) {
-                        if (bairro) {
-                            if (cidade) {
-                                if (estado) {
-                                    if (preco) {
-                                        if (valorSelecionado == 'disponivel') {
-                                            disponibilidade = true;
-                                        }
-                                        else {
-                                            disponibilidade = false;
-                                        }
-
-                                        axios.put(baseURL + `/imoveis/atualiza-imovel`, {
-                                            id_imovel: imovelId,
-                                            cep: cep.value,
-                                            logradouro: logradouro.value,
-                                            numero: parseInt(numero.value),
-                                            bairro: bairro.value,
-                                            localidade: cidade.value,
-                                            estado: estado.value,
-                                            uf: uf.value,
-                                            preco: parseInt(preco.value),
-                                            disponivel: disponibilidade
-                                        }, {
-                                            headers: {
-                                                Authorization: `Bearer ${token}`
-                                            }
-                                        })
-                                        .then(response => {
-                                            document.location.href = imoveisPage;
-                                        })
-                                        .catch(error =>{
-                                            alert(JSON.stringify(error.response.data, null, 2));
-                                        });
-                                    }
-                                    else {
-                                        alert('Campo preço é obrigatório!');
-                                        preco.focus();
-                                    }
-                                }
-                                else {
-                                    alert('Campo estado é obrigatório!');
-                                    estado.focus();
-                                }
-                            }
-                            else {
-                                alert('Campo cidade é obrigatório!');
-                                cidade.focus();
-                            }
-                        }
-                        else {
-                            alert('Campo bairro é obrigatório!');
-                            bairro.focus();
-                        }
-                    }
-                    else {
-                        alert('Campo número é obrigatório!');
-                        numero.focus();
-                    }
-                }
-                else {
-                    alert('Campo logradouro é obrigatório!');
-                    logradouro.focus();
+            const camposObrigatorios = [
+                { campo: cep, mensagem: 'Campo CEP é obrigatório!' },
+                { campo: logradouro, mensagem: 'Campo logradouro é obrigatório!' },
+                { campo: numero, mensagem: 'Campo número é obrigatório!' },
+                { campo: bairro, mensagem: 'Campo bairro é obrigatório!' },
+                { campo: cidade, mensagem: 'Campo cidade é obrigatório!' },
+                { campo: estado, mensagem: 'Campo estado é obrigatório!' },
+                { campo: preco, mensagem: 'Campo preço é obrigatório!' },
+            ];
+        
+            for (let i = 0; i < camposObrigatorios.length; i++) {
+                const campo = camposObrigatorios[i];
+                if (!campo.campo.value || campo.campo.value.length === 0) {
+                    alert(campo.mensagem);
+                    campo.campo.focus();
+                    return;
                 }
             }
-            else {
-                alert('Campo cep é obrigatório!');
-                cep.focus();
-            }
+        
+            const disponibilidade = valorSelecionado === 'disponivel';
+        
+            axios.put(baseURL + `/imoveis/atualiza-imovel`, {
+                id_imovel: imovelId,
+                cep: cep.value,
+                logradouro: logradouro.value,
+                numero: parseInt(numero.value),
+                bairro: bairro.value,
+                localidade: cidade.value,
+                estado: estado.value,
+                uf: uf.value,
+                preco: parseInt(preco.value),
+                disponivel: disponibilidade
+            }, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+            .then(response => {
+                document.location.href = imoveisPage;
+            })
+            .catch(error =>{
+                alert(JSON.stringify(error.response.data, null, 2));
+            });
         }
 
         cep.onblur = function() {
@@ -641,7 +613,7 @@ function login(email, senha){
                 document.location.href = indexPage;
             })
             .catch(error =>{
-                alert(error);
+                alert("E-mail ou senha incorretos. Verifique seus dados e tente novamente.");
             });
         }
         else {
