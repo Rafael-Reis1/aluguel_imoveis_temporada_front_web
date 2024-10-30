@@ -1,5 +1,5 @@
-var baseURL = `http://192.168.15.11:3000`;
-//var baseURL = `http://127.0.0.1:3000`;
+//const baseURL = `http://192.168.15.11:3000`; 192.168.219.201
+const baseURL = `http://127.0.0.1:3000`;
 const indexPage = 'index.html';
 const imoveisPage = 'imoveis.html';
 const imoveisSettingPage = 'imoveis_settings.html';
