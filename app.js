@@ -697,10 +697,8 @@ function populateTable(data) {
     const tableReservas = document.getElementById('tableReservas').querySelector('tbody');
 
     data.forEach(item => {
-        // Criar uma nova linha na tabela
         const novaLinha = tableReservas.insertRow();
 
-        // Criar e preencher cada célula da linha
         const logradouroCelula = novaLinha.insertCell();
         logradouroCelula.textContent = `${item.imoveis.logradouro}, ${item.imoveis.numero} - ${item.imoveis.bairro}`;
 
