@@ -603,6 +603,29 @@ sup {
 }
 
 
+input[type="number"] {
+    -moz-appearance: textfield;
+    appearance: textfield;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.mainContainer {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    height: 100vh;
+    margin-top: 3.75rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    padding-top: 2rem;
+    overflow: auto;
+}
+  
 @media (max-width: 48rem) {
     .cardImovel {
         border: 1px solid #D9D9D9;

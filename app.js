@@ -1,11 +1,12 @@
-//const baseURL = `http://192.168.15.11:3000`; 192.168.219.201
+//const baseURL = `http://192.168.215.222:3000`;
 const baseURL = `http://127.0.0.1:3000`;
-const indexPage = 'index.html';
+const indexPage = '/';
 const imoveisPage = 'imoveis.html';
 const imoveisSettingPage = 'imoveis_settings.html';
 const loginPage = 'login.html';
 const cadastroPage = 'cadastro.html';
 const reservar = 'reservar.html'
+const reservas = 'reservas.html'
 
 window.onload = function() {
     if (document.title == 'Login') {
@@ -58,45 +59,8 @@ window.onload = function() {
         }
     }
     else if (document.title == 'Home') {
-        const login = document.getElementById('irLogin');
-        const cadastrar = document.getElementById('irCadastro');
-        const usuario = document.getElementById('usuario');
-        const nomeUsuario = document.getElementById('nomeUsuario');
-        const token = localStorage.getItem('token');
-        const subMenuSair = document.getElementById('subMenuSair');
-        const subMenuImoveis = document.getElementById('subMenuImoveis');
 
-        axios.get(baseURL + `/usuarios/me`, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-                'Cache-Control': 'no-cache, no-store, must-revalidate'
-            }
-        })
-        .then(response => {
-            usuario.style.display = 'block';
-            nomeUsuario.innerText = response.data.nome;
-        })
-        .catch(error =>{
-            login.style.display = 'block';
-            cadastrar.style.display = 'block';
-        });
-
-        login.onclick = function() {
-            document.location.href = loginPage;
-        }
-
-        cadastrar.onclick = function() {
-            document.location.href = cadastroPage;
-        }
-
-        subMenuSair.onclick = function() {
-            localStorage.removeItem('token');
-            location.reload(true);
-        }
-
-        subMenuImoveis.onclick = function() {
-            document.location.href = imoveisPage;
-        }
+        headers();
 
         axios.get(baseURL + `/imoveis/public`)
         .then(response => {
@@ -107,34 +71,9 @@ window.onload = function() {
     }
     else if (document.title == 'imóveis') {
         const token = localStorage.getItem('token');
-        const subMenuSair = document.getElementById('subMenuSair');
-        const home = document.getElementById('home');
         const novoImovel = document.getElementById('novoImovel');
-        const usuario = document.getElementById('usuario');
-        const nomeUsuario = document.getElementById('nomeUsuario');
 
-        axios.get(baseURL + `/usuarios/me`, {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        })
-        .then(response => {
-            usuario.style.display = 'block';
-            nomeUsuario.innerText = response.data.nome;
-        })
-        .catch(error =>{
-            localStorage.removeItem('token');
-            document.location.href = indexPage;
-        });
-
-        subMenuSair.onclick = function() {
-            localStorage.removeItem('token');
-            document.location.href = indexPage;
-        }
-
-        home.onclick = function() {
-            document.location.href = indexPage;
-        }
+        headers();
 
         novoImovel.onclick = function() {
             document.location.href = imoveisSettingPage;
@@ -155,11 +94,6 @@ window.onload = function() {
     else if (document.title == 'imóveis settings') {
         const token = localStorage.getItem('token');
         const imovelId = sessionStorage.getItem('imovelId');
-        const home = document.getElementById('home');
-        const subMenuSair = document.getElementById('subMenuSair');
-        const subMenuImoveis = document.getElementById('subMenuImoveis');
-        const usuario = document.getElementById('usuario');
-        const nomeUsuario = document.getElementById('nomeUsuario');
         const cep = document.getElementById('cep');
         const logradouro = document.getElementById('logradouro');
         const bairro = document.getElementById('bairro');
@@ -173,19 +107,7 @@ window.onload = function() {
         const salvarImovel = document.getElementById('salvarImovel');
         const atualizarImovel = document.getElementById('atualizarImovel');
 
-        axios.get(baseURL + `/usuarios/me`, {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        })
-        .then(response => {
-            usuario.style.display = 'block';
-            nomeUsuario.innerText = response.data.nome;
-        })
-        .catch(error =>{
-            localStorage.removeItem('token');
-            document.location.href = indexPage;
-        });
+        headers();
 
         if (imovelId) {
             salvarImovel.style.display = 'none';
@@ -213,22 +135,11 @@ window.onload = function() {
                 else {
                     select.value = 'indisponivel';
                 }
+                const indice = select.selectedIndex;
+                valorSelecionado = select.options[indice].value;
             })
             .catch(error =>{
             });
-        }
-
-        subMenuSair.onclick = function() {
-            localStorage.removeItem('token');
-            document.location.href = indexPage;
-        }
-
-        home.onclick = function() {
-            document.location.href = indexPage;
-        }
-
-        subMenuImoveis.onclick = function() {
-            document.location.href = imoveisPage;
         }
 
         numero.onblur = function() {
@@ -287,8 +198,6 @@ window.onload = function() {
             });
         }
           
-          
-
         atualizarImovel.onclick = function() {
             const camposObrigatorios = [
                 { campo: cep, mensagem: 'Campo CEP é obrigatório!' },
@@ -359,26 +268,13 @@ window.onload = function() {
     }
     else if (document.title == 'Reservar') {
         const token = localStorage.getItem('token');
-        const home = document.getElementById('home');
         const enderecoReserva = document.getElementById('enderecoReserva');
         const precoReserva = document.getElementById('precoReserva');
         const cidadeReserva = document.getElementById('cidadeReserva');
         const imovelId = sessionStorage.getItem('imovelId');
-        const subMenuSair = document.getElementById('subMenuSair');
-        const subMenuImoveis = document.getElementById('subMenuImoveis');
         const reservar = document.getElementById('reservar');
 
-        axios.get(baseURL + `/usuarios/me`, {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        })
-        .then(response => {
-            usuario.style.display = 'block';
-            nomeUsuario.innerText = response.data.nome;
-        })
-        .catch(error =>{
-        });
+        headers();
 
         if (imovelId) {
             axios.post(baseURL + `/imoveis/id`, {
@@ -413,7 +309,6 @@ window.onload = function() {
             const formattedEntrada = entradaSelecionada.toISOString();
             const formattedSaida = saidaSelecionada.toISOString();
 
-            console.log(imovelId);
             axios.post(baseURL + `/reservas`, {
                 id_imovel: imovelId,
                 data_entrada: formattedEntrada,
@@ -430,19 +325,66 @@ window.onload = function() {
                 alert(JSON.stringify(error.response.data, null, 2));
             });
         }
+    }
+    else if (document.title == 'Reservas') {
+        const token = localStorage.getItem('token');
 
-        home.onclick = function() {
-            document.location.href = indexPage;
-        }
+        headers();
 
-        subMenuImoveis.onclick = function() {
-            document.location.href = imoveisPage;
-        }
+        axios.get(baseURL + `/reservas`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+        .then(response => {
+            populateTable(response.data);
+        })
+        .catch(error =>{
+        });
+    }
+}
 
-        subMenuSair.onclick = function() {
-            localStorage.removeItem('token');
-            document.location.href = indexPage;
+function headers() {
+    const usuario = document.getElementById('usuario');
+    const nomeUsuario = document.getElementById('nomeUsuario');
+    const subMenuSair = document.getElementById('subMenuSair');
+    const home = document.getElementById('home');
+    const subMenuImoveis = document.getElementById('subMenuImoveis');
+    const login = document.getElementById('irLogin');
+    const cadastrar = document.getElementById('irCadastro');
+    const token = localStorage.getItem('token');
+    const subMenuReservas = document.getElementById('subMenuReservas');
+
+    axios.get(baseURL + `/usuarios/me`, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+            'Cache-Control': 'no-cache, no-store, must-revalidate'
         }
+    })
+    .then(response => {
+        usuario.style.display = 'block';
+        nomeUsuario.innerText = response.data.nome;
+    })
+    .catch(error =>{
+        login.style.display = 'block';
+        cadastrar.style.display = 'block';
+    });
+
+    subMenuSair.onclick = function() {
+        localStorage.removeItem('token');
+        document.location.href = indexPage;
+    }
+
+    home.onclick = function() {
+        document.location.href = indexPage;
+    }
+
+    subMenuImoveis.onclick = function() {
+        document.location.href = imoveisPage;
+    }   
+
+    subMenuReservas.onclick = function() {
+        document.location.href = reservas;
     }
 }
 
@@ -709,7 +651,7 @@ function criaCard(dados) {
     });
   
     cardsImoveis.appendChild(fragment);
-  }
+}
   
 
   function criaCardSetting(dados) {
@@ -749,4 +691,69 @@ function criaCard(dados) {
     });
   
     cardsImoveis.appendChild(fragment);
-  }
+}
+
+function populateTable(data) {
+    const tableReservas = document.getElementById('tableReservas').querySelector('tbody');
+
+    data.forEach(item => {
+        // Criar uma nova linha na tabela
+        const novaLinha = tableReservas.insertRow();
+
+        // Criar e preencher cada célula da linha
+        const logradouroCelula = novaLinha.insertCell();
+        logradouroCelula.textContent = `${item.imoveis.logradouro}, ${item.imoveis.numero} - ${item.imoveis.bairro}`;
+
+        const entrada = novaLinha.insertCell();
+        let dataFormatada = formatarDataBrasileira(item.data_entrada);
+        entrada.textContent = `${dataFormatada}`;
+
+        const saída = novaLinha.insertCell();
+        dataFormatada = formatarDataBrasileira(item.data_saida);
+        saída.textContent = `${dataFormatada}`;
+
+        const totalDias = novaLinha.insertCell();
+        totalDias.textContent = `${item.totalDias}`;
+
+        const valorTotal = novaLinha.insertCell();
+        valorTotal.textContent = `${item.totalPreco}`;
+
+        // Adicionar a célula de ações com o botão de deletar
+        const acoesCelula = novaLinha.insertCell();
+        const botaoDeletar = document.createElement('button');
+        botaoDeletar.textContent = 'Deletar';
+        botaoDeletar.className = 'btn-delete';
+        botaoDeletar.onclick = () => deletarReserva(item.id_reserva, novaLinha);
+        acoesCelula.appendChild(botaoDeletar);
+    });
+}
+
+function formatarDataBrasileira(dataISO) {
+    const data = new Date(dataISO);
+
+    // Formatar a data no formato dd/MM/yyyy
+    const dia = String(data.getDate()).padStart(2, '0');
+    const mes = String(data.getMonth() + 1).padStart(2, '0'); // Mês começa em 0
+    const ano = data.getFullYear();
+
+    return `${dia}/${mes}/${ano}`;
+}
+
+// Função para deletar uma reserva
+function deletarReserva(id, linha) {
+    const token = localStorage.getItem('token');
+
+    axios.delete(baseURL + `/reservas/many`, {
+        data: [{ id_reserva: id }],
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    })
+    .then(response => {
+        linha.remove();
+    })
+    .catch(error =>{
+        console.error('Erro:', error);
+        alert('Falha ao se conectar com o servidor.');
+    });
+}
