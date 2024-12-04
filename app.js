@@ -1,4 +1,4 @@
-//const baseURL = `http://192.168.215.222:3000`;
+//const baseURL = `http://192.168.181.175:3000`;
 const baseURL = `http://127.0.0.1:3000`;
 const indexPage = '/';
 const imoveisPage = 'imoveis.html';
@@ -137,9 +137,16 @@ window.onload = function() {
                 }
                 const indice = select.selectedIndex;
                 valorSelecionado = select.options[indice].value;
+
+                populateTable(response.data.ReservaTemporada, false)
             })
             .catch(error =>{
             });
+        }
+        else {
+            select.value = 'disponivel';
+            const indice = select.selectedIndex;
+            valorSelecionado = select.options[indice].value;
         }
 
         numero.onblur = function() {
@@ -245,7 +252,7 @@ window.onload = function() {
         }
 
         cep.onblur = function() {
-            if (cep) {
+            if (cep.value) {
                 axios.get(`https://viacep.com.br/ws/${cep.value}/json/`)
                 .then(response => {
                     logradouro.value = response.data.logradouro;
@@ -263,6 +270,14 @@ window.onload = function() {
                     uf.value = '';
                     numero.value = '';
                 });
+            }
+            else {
+                logradouro.value = '';
+                bairro.value = '';
+                cidade.value = '';
+                estado.value = '';
+                uf.value = '';
+                numero.value = '';
             }
         }
     }
@@ -337,7 +352,7 @@ window.onload = function() {
             }
         })
         .then(response => {
-            populateTable(response.data);
+            populateTable(response.data, true);
         })
         .catch(error =>{
         });
@@ -354,6 +369,8 @@ function headers() {
     const cadastrar = document.getElementById('irCadastro');
     const token = localStorage.getItem('token');
     const subMenuReservas = document.getElementById('subMenuReservas');
+    const irLogin = document.getElementById('irLogin');
+    const irCadastro = document.getElementById('irCadastro');
 
     axios.get(baseURL + `/usuarios/me`, {
         headers: {
@@ -385,6 +402,14 @@ function headers() {
 
     subMenuReservas.onclick = function() {
         document.location.href = reservas;
+    }
+
+    irLogin.onclick = function() {
+        window.location.href = loginPage;
+    }
+
+    irCadastro.onclick = function() {
+        window.location.href = cadastroPage;
     }
 }
 
@@ -667,18 +692,20 @@ function criaCard(dados) {
       card.dataset.id = item.id_imovel;
 
       if (item.disponivel == false) {
-        disponibilidade = `<span style="background-color: red; color: white; font-family: Inter; font-size: 1rem; text-align: center; padding: 0.3125rem 0 0.3125rem 0; border-radius: 8px;">Indisponível</span>`; 
+        disponibilidade = `<span style="background-color: red; color: white; font-family: Inter; font-size: 1rem; text-align: center; padding: 0.3125rem 0 0.3125rem 0; border-radius: 8px; width: 100%">Indisponível</span>`; 
       }
       else{
-        disponibilidade = `<span style="background-color: green; color: white; font-family: Inter; font-size: 1rem; text-align: center; padding: 0.3125rem 0 0.3125rem 0; border-radius: 8px;">Disponível</span>`;
+        disponibilidade = `<span style="background-color: green; color: white; font-family: Inter; font-size: 1rem; text-align: center; padding: 0.3125rem 0 0.3125rem 0; border-radius: 8px; width: 100%">Disponível</span>`;
       }
   
       card.innerHTML = `
         <img src="drawables/ImagePlaceholder.png" alt="Imagem do imóvel">
         <div class="cardDetails">
           <p class="location">${item.logradouro}, ${item.numero} - ${item.bairro}</p>
-          <p class="price">R$${item.preco}/dia</p>
-          ${disponibilidade}
+        </div>
+        <div class="cardDetailsDisponibilidade"> 
+            <p class="price">R$${item.preco}/dia</p>
+            ${disponibilidade}
         </div>
       `;
   
@@ -693,36 +720,59 @@ function criaCard(dados) {
     cardsImoveis.appendChild(fragment);
 }
 
-function populateTable(data) {
+function populateTable(data, deletar) {
     const tableReservas = document.getElementById('tableReservas').querySelector('tbody');
 
     data.forEach(item => {
-        const novaLinha = tableReservas.insertRow();
+        if(deletar) {
+            const novaLinha = tableReservas.insertRow();
 
-        const logradouroCelula = novaLinha.insertCell();
-        logradouroCelula.textContent = `${item.imoveis.logradouro}, ${item.imoveis.numero} - ${item.imoveis.bairro}`;
+            const logradouroCelula = novaLinha.insertCell();
+            logradouroCelula.textContent = `${item.imoveis.logradouro}, ${item.imoveis.numero} - ${item.imoveis.bairro}, ${item.imoveis.localidade} - ${item.imoveis.uf}`;
 
-        const entrada = novaLinha.insertCell();
-        let dataFormatada = formatarDataBrasileira(item.data_entrada);
-        entrada.textContent = `${dataFormatada}`;
+            const entrada = novaLinha.insertCell();
+            let dataFormatada = formatarDataBrasileira(item.data_entrada);
+            entrada.textContent = `${dataFormatada}`;
 
-        const saída = novaLinha.insertCell();
-        dataFormatada = formatarDataBrasileira(item.data_saida);
-        saída.textContent = `${dataFormatada}`;
+            const saída = novaLinha.insertCell();
+            dataFormatada = formatarDataBrasileira(item.data_saida);
+            saída.textContent = `${dataFormatada}`;
 
-        const totalDias = novaLinha.insertCell();
-        totalDias.textContent = `${item.totalDias}`;
+            const totalDias = novaLinha.insertCell();
+            totalDias.textContent = `${item.totalDias}`;
 
-        const valorTotal = novaLinha.insertCell();
-        valorTotal.textContent = `${item.totalPreco}`;
+            const valorTotal = novaLinha.insertCell();
+            valorTotal.textContent = `${item.totalPreco}`;
 
-        // Adicionar a célula de ações com o botão de deletar
-        const acoesCelula = novaLinha.insertCell();
-        const botaoDeletar = document.createElement('button');
-        botaoDeletar.textContent = 'Deletar';
-        botaoDeletar.className = 'btn-delete';
-        botaoDeletar.onclick = () => deletarReserva(item.id_reserva, novaLinha);
-        acoesCelula.appendChild(botaoDeletar);
+            // Adicionar a célula de ações com o botão de deletar
+            const acoesCelula = novaLinha.insertCell();
+            const botaoDeletar = document.createElement('button');
+            botaoDeletar.textContent = 'Deletar';
+            botaoDeletar.className = 'btn-delete';
+            botaoDeletar.onclick = () => deletarReserva(item.id_reserva, novaLinha);
+            acoesCelula.appendChild(botaoDeletar);
+        }
+        else {
+            console.log('teste')
+            const novaLinha = tableReservas.insertRow();
+
+            const logradouroCelula = novaLinha.insertCell();
+            logradouroCelula.textContent = `${item.usuarios.nome}`;
+
+            const entrada = novaLinha.insertCell();
+            let dataFormatada = formatarDataBrasileira(item.data_entrada);
+            entrada.textContent = `${dataFormatada}`;
+
+            const saída = novaLinha.insertCell();
+            dataFormatada = formatarDataBrasileira(item.data_saida);
+            saída.textContent = `${dataFormatada}`;
+
+            const totalDias = novaLinha.insertCell();
+            totalDias.textContent = `${item.totalDias}`;
+
+            const valorTotal = novaLinha.insertCell();
+            valorTotal.textContent = `${item.totalPreco}`;
+        }
     });
 }
 

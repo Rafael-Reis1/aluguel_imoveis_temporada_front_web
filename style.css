@@ -274,6 +274,8 @@ input[type="checkbox"] + label {
 
 .cardDetails {
     display: flex;
+    height: 100%;
+    justify-content: center;
     flex-direction: column;
     gap: 0.5rem;
 }
@@ -418,9 +420,9 @@ input[type="checkbox"] + label {
     flex-wrap: wrap;
 }
 
-#fotosImovel {
+#reservas {
     margin-top: 4.75rem;
-    width: 100%;
+    width: 135%;
     height: 100%;
 }
 
@@ -616,14 +618,22 @@ input[type="number"]::-webkit-outer-spin-button {
 
 .mainContainer {
     display: flex;
-    align-items: flex-start;
-    justify-content: center;
+    flex-direction: column;
     height: 100vh;
     margin-top: 3.75rem;
     padding-left: 2rem;
     padding-right: 2rem;
     padding-top: 2rem;
     overflow: auto;
+}
+
+.cardDetailsDisponibilidade {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    gap: 0.625rem;
+    justify-content: flex-end;
 }
   
 @media (max-width: 768px) {
@@ -707,20 +717,6 @@ input[type="number"]::-webkit-outer-spin-button {
         width: 100%;
     }
 
-    #settingInputs {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        width: 100%;
-        gap: 2rem;
-        padding-bottom: 6.25rem;
-        margin-top: 1.875rem;
-    }
-
-    .settingInputsDiv {
-        width: 100%;
-    }
-
     .camposSettingsImoveis {
         border: 1px solid #D9D9D9;
         border-radius: 8px;
@@ -741,10 +737,6 @@ input[type="number"]::-webkit-outer-spin-button {
         padding-top: 2rem;
         overflow-x: hidden;
         overflow-y: auto;
-    }
-
-    #fotosImovel {
-        display: none;
     }
 
     #fotoDetalhes {
